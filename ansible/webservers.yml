@@ -1,0 +1,8 @@
+---
+- hosts: webservers
+#  become: true
+  connection: docker
+  roles:
+    - common
+    - nginx
+    - php

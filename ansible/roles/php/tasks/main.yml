@@ -1,0 +1,76 @@
+# amazon linux2
+#- name: amazon-linux-extras
+#  command: amazon-linux-extras install lamp-mariadb10.2-php7.2 php7.2
+#  tags: php
+#
+#- name: install php
+#  yum: name={{item}}
+#  with_items:
+#    - php
+#    - php-cli
+#    - php-gd
+#    - php-mbstring
+#    - php-mysqlnd
+#    - php-pdo
+#    - php-xml
+##    - php-memcached
+#    - php-devel
+#    - php-fpm
+#  tags: php
+
+
+# php72
+#- name: check epel.repo
+#  stat: path=/etc/yum.repos.d/epel.repo
+#  register: is_installed_epel
+#  tags: php
+#
+#- name: add epel repository
+#  command: rpm -ivh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+#  when: is_installed_epel.stat.exists == false
+#  tags: php
+#
+#- name: check remi-release-6
+#  stat: path=/etc/yum.repos.d/remi-php72.repo
+#  register: is_installed_remi_release_6
+#  tags: php
+#
+#- name: add remi repository
+#  command: rpm -ivh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+#  when: is_installed_remi_release_6.stat.exists == false
+#  tags: php
+#
+#- name: install packages
+#  yum: name=yum-utils
+#  tags: php
+#
+#- name: yum-config-manager
+#  command: yum-config-manager --enable remi-php72
+#  tags: php
+#
+#- name: install php
+#  command: yum install --disablerepo="*" --enablerepo=epel,remi-php72,remi -y php php-cli php-gd php-mbstring php-mysqlnd php-pdo php-xml php-xdebug php-devel
+#  tags: php
+
+- name: install
+  yum: name={{ item }} state=latest
+  with_items:
+    - php70-fpm
+    - php70-mbstring
+    - php70-mcrypt
+    - php70-mysqlnd
+    - php70-zip
+    - php70-soap
+  tags: php
+
+- name: copy php.ini
+  template: src=php.ini.j2 dest=/etc/php-7.0.ini
+  tags: php
+
+- name: copy www.conf
+  template: src=www.conf.j2 dest=/etc/php-fpm.d/www.conf
+  tags: php
+
+- name: start
+  service: name=php-fpm state=restarted enabled=yes
+  tags: php

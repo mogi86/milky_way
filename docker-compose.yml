@@ -1,0 +1,31 @@
+version: "2"
+services:
+  milky_way_web:
+    build: ./docker/web
+    container_name: milky_way_web
+    ports:
+      - "32776:80"
+    depends_on:
+      - milky_way_db
+    links:
+      - milky_way_db
+    volumes:
+      - ./milky_way:/var/www/milky_way
+    #restart: always
+    tty: true
+
+  milky_way_db:
+    image: mysql:5.6.37
+    container_name: milky_way_db
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: milky_way
+      #MYSQL_USER: milky_way
+      #MYSQL_PASSWORD: milky_way
+      MYSQL_HOST: "localhost"
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    #restart: always
