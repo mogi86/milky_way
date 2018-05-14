@@ -1,0 +1,7 @@
+- name: install composer
+  shell: /bin/bash -lc "curl -s https://getcomposer.org/installer | php"
+  tags: composer
+
+- name: move composer
+  shell: /bin/bash -lc "mv ./composer.phar /usr/local/bin/composer"
+  tags: composer
