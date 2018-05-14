@@ -55,16 +55,17 @@
 - name: install
   yum: name={{ item }} state=latest
   with_items:
-    - php70-fpm
-    - php70-mbstring
-    - php70-mcrypt
-    - php70-mysqlnd
-    - php70-zip
-    - php70-soap
+    - php71-fpm
+    - php71-mbstring
+    - php71-mcrypt
+    - php71-mysqlnd
+    - php71-soap
+    - php71-pdo
+    - php71-devel
   tags: php
 
 - name: copy php.ini
-  template: src=php.ini.j2 dest=/etc/php-7.0.ini
+  template: src=php.ini.j2 dest=/etc/php-7.1.ini
   tags: php
 
 - name: copy www.conf
