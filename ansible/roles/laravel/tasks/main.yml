@@ -1,0 +1,15 @@
+- name: copy .env
+  command: cp /var/www/milky_way/.env.example /var/www/milky_way/.env
+  tags: laravel
+
+- name: exec composer install
+  composer:
+    command: install
+    working_dir: /var/www/milky_way
+  tags: laravel
+
+- name: key generate
+  shell: /bin/bash -lc "php artisan key:generate"
+  args:
+    chdir: /var/www/milky_way/
+  tags: laravel
