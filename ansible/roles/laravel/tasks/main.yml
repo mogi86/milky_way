@@ -13,3 +13,9 @@
   args:
     chdir: /var/www/milky_way/
   tags: laravel
+
+- name: migrate
+  shell: /bin/bash -lc "php artisan migrate"
+  args:
+    chdir: /var/www/milky_way/
+  tags: laravel
